@@ -1,7 +1,7 @@
 var baseUrl = 'http://api.openweathermap.org/data/2.5/onecall?q=';
 var city = 'Chicago';
 var units = '&units=imperial'
-var apiKey = '&appid=6b7fe706f688707864f72240c14f1202';
+var apiKey = '&appid=02cedeff9fdb90cdda23271a5a1168a1';
 var apiUrl = baseUrl + city + units + apiKey
 var apiCall = function() {
     console.log(apiUrl)
