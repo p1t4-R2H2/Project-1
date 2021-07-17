@@ -1,43 +1,19 @@
-fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm", {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
-		"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
-	}
-})
-.then(response => {
-	console.log(response);
-})
-.catch(err => {
-	console.error(err);
-});
-
 console.log('Script attached');
-var baseUrl = 'http://api.openweathermap.org/data/2.5/weather?q=';
-var city = 'Chicago';
-var units = '&units=imperial';
-var APIKey = '&appid=e1a4a8808d7f6de7333f8ac6e7ef2b5d';
-var apiUrl= baseUrl + city + units + APIKey;
-console.log(apiUrl);
-var submitButton = document.querySelector('#submitButton');
-var searchTerm = document.querySelector('#searchTerm');
-
-var searchButtonHandler = function(event){
-    event.preventDefault();
-    console.log('Button clicked!');
-    
-    if(searchTerm.value){
-        console.log(searchTerm.value);
-    }
-    else{
-        console.log('Please enter search term')
-    }
-}
-
-submitButton.addEventListener('click', searchButtonHandler);
+var searchTerm = document.querySelector('#city');
+var weatherCard = document.querySelector('#weather-card');
 
 
 var getWeather = function(){
+	var baseUrl = 'http://api.openweathermap.org/data/2.5/weather?q=';
+	var searchTerm = document.querySelector('#city');
+	var city = searchTerm.value;
+	var units = '&units=imperial';
+	var APIKey = '&appid=e1a4a8808d7f6de7333f8ac6e7ef2b5d';
+	var kyleApi = '&appid=6b7fe706f688707864f72240c14f1202';
+	var apiUrl= baseUrl + city + units + APIKey;
+console.log(apiUrl);
+	var submitButton = document.querySelector('#submitButton');
+	
     fetch(apiUrl)
     .then(
       function(response) {
@@ -56,6 +32,18 @@ var getWeather = function(){
           console.log('Temp: ' + data.main.temp);
           console.log('Humidity: ' + data.main.humidity + '%')
           console.log('Wind: ' + wind + 'MPH');
+		  var createWeatherCard = document.createElement("ul");
+			var tempItem = document.createElement('li');
+			var humidityItem = document.createElement('li');
+			var windItem = document.createElement('li');
+			tempItem.textContent = 'Tempt: ' + temperature;
+			humidityItem.textContent = 'Humidity: ' + humidity;
+			windItem.textContent  = 'Wind: ' + wind + 'MPH';
+
+			createWeatherCard.appendChild(tempItem);
+			createWeatherCard.appendChild(humidityItem);
+			createWeatherCard.appendChild(windItem);
+			weatherCard.appendChild(createWeatherCard);
         });
       }
     )
@@ -65,4 +53,147 @@ var getWeather = function(){
 
 }
 
-getWeather();
+//getWeather();
+
+var getSkyPlaces = function (){
+	var city = searchTerm.value;
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?query=" + city, {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
+		"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
+	}
+})
+.then(
+	function(response){
+		if (response.status!==200){
+			console.log('Looks like there was a problem. Status Code: ' + response.status);
+			return;
+		}
+
+		response.json().then(function(data){
+			console.log(data)
+			console.log(data.Places[0].PlaceId);
+			var cityCode = data.Places[0].PlaceId;
+			console.log(cityCode);
+			getSkyPrices(cityCode)
+		});
+	}
+)
+.catch(function(err){
+	console.log('Fetch Error :-S', err);
+});
+}
+
+
+
+var getSkyPrices = function(cityCodeRec){
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/CHIA-sky/" + cityCodeRec + "/anytime/2021-08-01", {
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
+			"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
+	}
+})
+.then(
+	function(response){
+		if (response.status!==200){
+			console.log('Looks like there was a problem. Status Code: ' + response.status);
+			return;
+		}
+
+		response.json().then(function(data){
+			console.log(data);
+		for (var i=0; i < data.Quotes.length; i++){
+			console.log(i);
+			console.log(data.Quotes[i]);
+			var quote = data.Quotes[i];
+			var carriersArray = data.Carriers;
+			console.log(data.Carriers);
+			console.log(data.Quotes.length);
+			var carrier;
+			for (var x = 0; x < carriersArray.length; x ++) {
+				// console.log(carrier)
+				if (quote.InboundLeg.CarrierIds[0] == carriersArray[x].CarrierId) {
+					carrier = carriersArray[x].Name;
+				}
+			}
+			console.log(carrier);
+			var direct;
+			if(quote.Direct===true){
+				direct = 'Direct Flight';
+			}
+			else{
+				direct = 'Indirect Flight';
+			}
+			console.log(direct);
+			var price = quote.MinPrice;
+			console.log('Price: $' + price);
+			console.log('Airline ' + carrier)
+			//document.querySelector('#flight-card').innerHTML = carrier + ' ' + ' Price: $' +   price + ' ' +  direct;
+			var createFlightCard = document.createElement("ul");
+			var carrierItem = document.createElement('li');
+			var priceItem = document.createElement('li');
+			var directItem = document.createElement('li');
+			carrierItem.textContent = carrier;
+			priceItem.textContent = price;
+			directItem.textContent  = direct;
+
+			createFlightCard.appendChild(carrierItem);
+			createFlightCard.appendChild(priceItem);
+			createFlightCard.appendChild(directItem);
+			var flightCard = document.querySelector('#flight-card');
+			flightCard.appendChild(createFlightCard);
+
+			
+		}
+		
+		});
+	}
+)
+.catch(function(err){
+	console.log('Fetch Error :-S', err);
+});
+}
+
+//getSkyPrices();
+
+var searchButtonHandler = function(event){
+    event.preventDefault();
+    console.log('Button clicked!');
+    
+    if(searchTerm.value){
+        console.log(searchTerm.value);
+		getSkyPlaces();
+		getWeather();
+    }
+    else{
+        console.log('Please enter search term')
+    }
+}
+
+submitButton.addEventListener('click', searchButtonHandler);
+
+// const carriers = [
+// 	{id: 1, name: "Spirit",
+// }, 
+// {
+// 	id: 2, name: "Delta"
+// }, 
+// {id:3, 
+// 	name: "American"
+// }
+// ];
+
+// const myId = 2;
+
+// const findAirlineById = (id) => {
+// 	for (let i = 0; i < carriers.length; i++) {
+// 		if (carriers[i].id === id) {
+// 			console.log(carriers[i].name)
+// 			return carriers[i].name
+// 		}
+// 	}
+// };
+
+// findAirlineById(myId);
