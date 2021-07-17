@@ -7,21 +7,7 @@ var kyleApi = '&appid=6b7fe706f688707864f72240c14f1202';
 var apiUrl= baseUrl + city + units + APIKey;
 console.log(apiUrl);
 var submitButton = document.querySelector('#submitButton');
-var searchTerm = document.querySelector('#searchTerm');
-
-var searchButtonHandler = function(event){
-    event.preventDefault();
-    console.log('Button clicked!');
-    
-    if(searchTerm.value){
-        console.log(searchTerm.value);
-    }
-    else{
-        console.log('Please enter search term')
-    }
-}
-
-submitButton.addEventListener('click', searchButtonHandler);
+var searchTerm = document.querySelector('#city');
 
 
 var getWeather = function(){
@@ -54,8 +40,9 @@ var getWeather = function(){
 
 getWeather();
 
-var getSkyScanner = function (){
-	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?query=Chicago", {
+var getSkyPlaces = function (){
+	var city = searchTerm.value;
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?query=" + city, {
 	"method": "GET",
 	"headers": {
 		"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
@@ -71,6 +58,7 @@ var getSkyScanner = function (){
 
 		response.json().then(function(data){
 			console.log(data)
+			console.log(data.Places[0].PlaceId);
 		});
 	}
 )
@@ -79,4 +67,45 @@ var getSkyScanner = function (){
 });
 }
 
-getSkyScanner();
+var getSkyPrices = function(){
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/CHIA-sky/DFWA-sky/anytime/2021-08-01", {
+		"method": "GET",
+		"headers": {
+			"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
+			"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
+	}
+})
+.then(
+	function(response){
+		if (response.status!==200){
+			console.log('Looks like there was a problem. Status Code: ' + response.status);
+			return;
+		}
+
+		response.json().then(function(data){
+			console.log(data)
+			
+		});
+	}
+)
+.catch(function(err){
+	console.log('Fetch Error :-S', err);
+});
+}
+
+getSkyPrices();
+
+var searchButtonHandler = function(event){
+    event.preventDefault();
+    console.log('Button clicked!');
+    
+    if(searchTerm.value){
+        console.log(searchTerm.value);
+		getSkyPlaces();
+    }
+    else{
+        console.log('Please enter search term')
+    }
+}
+
+submitButton.addEventListener('click', searchButtonHandler);
