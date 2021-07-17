@@ -101,9 +101,19 @@ var getSkyPrices = function(cityCodeRec){
 				}
 			}
 			console.log(carrier);
-			console.log('Direct? ' + quote.Direct);
-			console.log('Price: $' + quote.MinPrice);
-			console.log('Carrier ID ' + carrier)
+			var direct;
+			if(quote.Direct===true){
+				direct = 'Direct Flight';
+			}
+			else{
+				direct = 'Indirect Flight';
+			}
+			console.log(direct);
+			var price = quote.MinPrice;
+			console.log('Price: $' + price);
+			console.log('Airline ' + carrier)
+			document.querySelector('#flight-card').innerHTML = carrier + ' ' + ' Price: $' +   price + ' ' +  direct;
+
 			
 		});
 	}
