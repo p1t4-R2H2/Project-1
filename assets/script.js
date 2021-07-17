@@ -1,22 +1,9 @@
-fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK/GBP/en-GB/?query=Stockholm", {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
-		"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
-	}
-})
-.then(response => {
-	console.log(response);
-})
-.catch(err => {
-	console.error(err);
-});
-
 console.log('Script attached');
 var baseUrl = 'http://api.openweathermap.org/data/2.5/weather?q=';
 var city = 'Chicago';
 var units = '&units=imperial';
 var APIKey = '&appid=e1a4a8808d7f6de7333f8ac6e7ef2b5d';
+var kyleApi = '&appid=6b7fe706f688707864f72240c14f1202';
 var apiUrl= baseUrl + city + units + APIKey;
 console.log(apiUrl);
 var submitButton = document.querySelector('#submitButton');
@@ -66,3 +53,30 @@ var getWeather = function(){
 }
 
 getWeather();
+
+var getSkyScanner = function (){
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?query=Chicago", {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
+		"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
+	}
+})
+.then(
+	function(response){
+		if (response.status!==200){
+			console.log('Looks like there was a problem. Status Code: ' + response.status);
+			return;
+		}
+
+		response.json().then(function(data){
+			console.log(data)
+		});
+	}
+)
+.catch(function(err){
+	console.log('Fetch Error :-S', err);
+});
+}
+
+getSkyScanner();
