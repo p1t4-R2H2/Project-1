@@ -59,6 +59,9 @@ var getSkyPlaces = function (){
 		response.json().then(function(data){
 			console.log(data)
 			console.log(data.Places[0].PlaceId);
+			var cityCode = data.Places[0].PlaceId;
+			console.log(cityCode);
+			getSkyPrices(cityCode)
 		});
 	}
 )
@@ -67,8 +70,10 @@ var getSkyPlaces = function (){
 });
 }
 
-var getSkyPrices = function(){
-	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/CHIA-sky/DFWA-sky/anytime/2021-08-01", {
+
+
+var getSkyPrices = function(cityCodeRec){
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/CHIA-sky/" + cityCodeRec + "/anytime/2021-08-01", {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
@@ -84,6 +89,21 @@ var getSkyPrices = function(){
 
 		response.json().then(function(data){
 			console.log(data)
+			console.log(data.Quotes[0]);
+			var quote = data.Quotes[0];
+			var carriersArray = data.Carriers;
+			console.log(data.Carriers);
+			var carrier;
+			for (var i = 0; i < carriersArray.length; i ++) {
+				// console.log(carrier)
+				if (quote.InboundLeg.CarrierIds[0] == carriersArray[i].CarrierId) {
+					carrier = carriersArray[i].Name;
+				}
+			}
+			console.log(carrier);
+			console.log('Direct? ' + quote.Direct);
+			console.log('Price: $' + quote.MinPrice);
+			console.log('Carrier ID ' + carrier)
 			
 		});
 	}
@@ -93,7 +113,7 @@ var getSkyPrices = function(){
 });
 }
 
-getSkyPrices();
+//getSkyPrices();
 
 var searchButtonHandler = function(event){
     event.preventDefault();
@@ -109,3 +129,27 @@ var searchButtonHandler = function(event){
 }
 
 submitButton.addEventListener('click', searchButtonHandler);
+
+// const carriers = [
+// 	{id: 1, name: "Spirit",
+// }, 
+// {
+// 	id: 2, name: "Delta"
+// }, 
+// {id:3, 
+// 	name: "American"
+// }
+// ];
+
+// const myId = 2;
+
+// const findAirlineById = (id) => {
+// 	for (let i = 0; i < carriers.length; i++) {
+// 		if (carriers[i].id === id) {
+// 			console.log(carriers[i].name)
+// 			return carriers[i].name
+// 		}
+// 	}
+// };
+
+// findAirlineById(myId);
