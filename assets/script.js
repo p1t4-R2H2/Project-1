@@ -1,18 +1,19 @@
 console.log('Script attached');
-var searchTerm = document.querySelector('#city');
+var searchTerm = document.querySelector('#destinationCity');
 var weatherCard = document.querySelector('#weather-card');
+var submitButton = document.querySelector('#searchButton')
 
 
 var getWeather = function(){
-	var baseUrl = 'http://api.openweathermap.org/data/2.5/weather?q=';
-	var searchTerm = document.querySelector('#city');
+	var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?q=';
+	var searchTerm = document.querySelector('#destinationCity');
 	var city = searchTerm.value;
 	var units = '&units=imperial';
 	var APIKey = '&appid=e1a4a8808d7f6de7333f8ac6e7ef2b5d';
-	var kyleApi = '&appid=6b7fe706f688707864f72240c14f1202';
+	//var kyleApi = '&appid=6b7fe706f688707864f72240c14f1202';
 	var apiUrl= baseUrl + city + units + APIKey;
 console.log(apiUrl);
-	var submitButton = document.querySelector('#submitButton');
+	//var submitButton = document.querySelector('#submit');
 	
     fetch(apiUrl)
     .then(
