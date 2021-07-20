@@ -1,6 +1,8 @@
 console.log('Script attached');
 var searchTerm = document.querySelector('#destinationCity');
+var originTerm = document.querySelector('#originCity')
 var weatherCard = document.querySelector('#weather-card');
+var flightCard = document.querySelector('#flight-card');
 var submitButton = document.querySelector('#searchButton')
 
 
@@ -37,7 +39,7 @@ console.log(apiUrl);
 			var tempItem = document.createElement('li');
 			var humidityItem = document.createElement('li');
 			var windItem = document.createElement('li');
-			tempItem.textContent = 'Tempt: ' + temperature;
+			tempItem.textContent = 'Temp: ' + temperature;
 			humidityItem.textContent = 'Humidity: ' + humidity;
 			windItem.textContent  = 'Wind: ' + wind + 'MPH';
 
@@ -54,10 +56,39 @@ console.log(apiUrl);
 
 }
 
-//getWeather();
+var getOriginCode = function (){
+	var originCity = originTerm.value;
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?query=" + originCity, {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
+		"x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com"
+	}
+})
+.then(
+	function(response){
+		if (response.status!==200){
+			console.log('Looks like there was a problem. Status Code: ' + response.status);
+			return;
+		}
 
-var getSkyPlaces = function (){
+		response.json().then(function(data){
+			console.log(data)
+			//console.log(data.Places[0].PlaceId);
+			var originCode = data.Places[0].PlaceId;
+			console.log(originCode);
+			getSkyPlaces(originCode)
+		});
+	}
+)
+.catch(function(err){
+	console.log('Fetch Error :-S', err);
+});
+}
+
+var getSkyPlaces = function (originCodeRec){
 	var city = searchTerm.value;
+	var originTermRec = originCodeRec;
 	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/?query=" + city, {
 	"method": "GET",
 	"headers": {
@@ -77,7 +108,7 @@ var getSkyPlaces = function (){
 			console.log(data.Places[0].PlaceId);
 			var cityCode = data.Places[0].PlaceId;
 			console.log(cityCode);
-			getSkyPrices(cityCode)
+			getSkyPrices(cityCode, originCodeRec)
 		});
 	}
 )
@@ -88,8 +119,8 @@ var getSkyPlaces = function (){
 
 
 
-var getSkyPrices = function(cityCodeRec){
-	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/CHIA-sky/" + cityCodeRec + "/anytime/2021-08-01", {
+var getSkyPrices = function(cityCodeRec, originCodeRec){
+	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + originCodeRec + '/' + cityCodeRec + "/anytime/2021-08-01", {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
@@ -143,7 +174,6 @@ var getSkyPrices = function(cityCodeRec){
 			createFlightCard.appendChild(carrierItem);
 			createFlightCard.appendChild(priceItem);
 			createFlightCard.appendChild(directItem);
-			var flightCard = document.querySelector('#flight-card');
 			flightCard.appendChild(createFlightCard);
 
 			
@@ -165,8 +195,9 @@ var searchButtonHandler = function(event){
     
     if(searchTerm.value){
         console.log(searchTerm.value);
-		getSkyPlaces();
+		//getSkyPlaces();
 		getWeather();
+		getOriginCode();
     }
     else{
         console.log('Please enter search term')
