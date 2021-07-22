@@ -1,11 +1,14 @@
 console.log('Script attached');
 var searchTerm = document.querySelector('#destinationCity');
-var originTerm = document.querySelector('#originCity')
+var originTerm = document.querySelector('#originCity');
+var departInput = document.querySelector('#departInput');
+var returnInput = document.querySelector('#returnInput');
 var weatherCard = document.querySelector('#weather-card');
 var flightCard = document.querySelector('#flight-card');
-var submitButton = document.querySelector('#searchButton')
+var submitButton = document.querySelector('#searchButton');
 var homeBtn = document.querySelector('#homeBtn');
 var abtBtn = document.querySelector('#abtBtn');
+var resetButton = document.querySelector('#resetButton');
 
 
 var getWeather = function(){
@@ -127,7 +130,16 @@ var getSkyPlaces = function (originCodeRec){
 
 
 var getSkyPrices = function(cityCodeRec, originCodeRec){
-	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + originCodeRec + '/' + cityCodeRec + "/anytime/2021-08-01", {
+	var skyBaseUrl = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/";
+	var departureDate = '/' + departInput.value;
+	//console.log(departureDate);
+	//var returnDate = returnInput.value;
+	//console.log(returnDate);
+	var skyApiUrl = skyBaseUrl + originCodeRec + '/' + cityCodeRec + + '/' + departureDate;
+
+
+
+	fetch(skyApiUrl, {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
@@ -153,7 +165,7 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			var carrier;
 			for (var x = 0; x < carriersArray.length; x ++) {
 				// console.log(carrier)
-				if (quote.InboundLeg.CarrierIds[0] == carriersArray[x].CarrierId) {
+				if (quote.OutboundLeg.CarrierIds[0] == carriersArray[x].CarrierId) {
 					carrier = carriersArray[x].Name;
 				}
 			}
@@ -166,22 +178,29 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 				direct = 'Indirect Flight';
 			}
 			console.log(direct);
-			var price = quote.MinPrice;
+			var price = 'Price: $' + quote.MinPrice;
 			console.log('Price: $' + price);
 			console.log('Airline ' + carrier)
 			//document.querySelector('#flight-card').innerHTML = carrier + ' ' + ' Price: $' +   price + ' ' +  direct;
+
 			var createFlightCard = document.createElement('div');
 			var carrierItem = document.createElement('div');
 			var priceItem = document.createElement('div');
 			var directItem = document.createElement('div');
 			flightCard.classList.add('tile', 'is-parent', 'is-12', 'is-flex', 'is-flex-wrap-wrap', 'is-justify-content-space-between');
 			createFlightCard.classList.add('tile', 'is-child', 'box', 'is-3', 'has-background-primary-light');
-			carrierItem.textContent = carrier;
+			
 			carrierItem.classList.add('content', 'is-size-4', 'has-text-primary-dark');
+
+			
+			carrierItem.textContent = 'Airline: ' +  carrier;
+
 			priceItem.textContent = price;
 			priceItem.classList.add('content', 'is-size-5', 'has-text-primary-dark');
 			directItem.textContent  = direct;
+
 			directItem.classList.add('content', 'is-size-4', 'has-text-primary-dark');
+
 
 			createFlightCard.appendChild(carrierItem);
 			createFlightCard.appendChild(priceItem);
@@ -216,7 +235,15 @@ var searchButtonHandler = function(event){
     }
 }
 
+var resetButtonHandler = function(event){
+	event.preventDefault();
+	console.log('Reset button clicked!');
+	weatherCard.innerHTML = '';
+	flightCard.innerHTML = '';
+}
+
 submitButton.addEventListener('click', searchButtonHandler);
+resetButton.addEventListener('click', resetButtonHandler);
 
 // const carriers = [
 // 	{id: 1, name: "Spirit",
