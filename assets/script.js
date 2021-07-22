@@ -3,9 +3,10 @@ var searchTerm = document.querySelector('#destinationCity');
 var originTerm = document.querySelector('#originCity')
 var weatherCard = document.querySelector('#weather-card');
 var flightCard = document.querySelector('#flight-card');
-var submitButton = document.querySelector('#searchButton')
+var submitButton = document.querySelector('#searchButton');
 var homeBtn = document.querySelector('#homeBtn');
 var abtBtn = document.querySelector('#abtBtn');
+var resetButton = document.querySelector('#resetButton');
 
 
 var getWeather = function(){
@@ -206,7 +207,15 @@ var searchButtonHandler = function(event){
     }
 }
 
+var resetButtonHandler = function(event){
+	event.preventDefault();
+	console.log('Reset button clicked!');
+	weatherCard.innerHTML = '';
+	flightCard.innerHTML = '';
+}
+
 submitButton.addEventListener('click', searchButtonHandler);
+resetButton.addEventListener('click', resetButtonHandler);
 
 // const carriers = [
 // 	{id: 1, name: "Spirit",
