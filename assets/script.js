@@ -3,9 +3,10 @@ var searchTerm = document.querySelector('#destinationCity');
 var originTerm = document.querySelector('#originCity')
 var weatherCard = document.querySelector('#weather-card');
 var flightCard = document.querySelector('#flight-card');
-var submitButton = document.querySelector('#searchButton')
+var submitButton = document.querySelector('#searchButton');
 var homeBtn = document.querySelector('#homeBtn');
 var abtBtn = document.querySelector('#abtBtn');
+var resetButton = document.querySelector('#resetButton');
 
 
 var getWeather = function(){
