@@ -1,6 +1,8 @@
 console.log('Script attached');
 var searchTerm = document.querySelector('#destinationCity');
-var originTerm = document.querySelector('#originCity')
+var originTerm = document.querySelector('#originCity');
+var departInput = document.querySelector('#departInput');
+var returnInput = document.querySelector('#returnInput');
 var weatherCard = document.querySelector('#weather-card');
 var flightCard = document.querySelector('#flight-card');
 var submitButton = document.querySelector('#searchButton');
@@ -123,7 +125,16 @@ var getSkyPlaces = function (originCodeRec){
 
 
 var getSkyPrices = function(cityCodeRec, originCodeRec){
-	fetch("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/" + originCodeRec + '/' + cityCodeRec + "/anytime/2021-08-01", {
+	var skyBaseUrl = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/";
+	var departureDate = '/' + departInput.value;
+	//console.log(departureDate);
+	//var returnDate = returnInput.value;
+	//console.log(returnDate);
+	var skyApiUrl = skyBaseUrl + originCodeRec + '/' + cityCodeRec + + '/' + departureDate;
+
+
+
+	fetch(skyApiUrl, {
 		"method": "GET",
 		"headers": {
 			"x-rapidapi-key": "fe7e261dbbmsha5f51ac86d4be32p17f2fcjsnd0f6bd472077",
@@ -149,7 +160,7 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			var carrier;
 			for (var x = 0; x < carriersArray.length; x ++) {
 				// console.log(carrier)
-				if (quote.InboundLeg.CarrierIds[0] == carriersArray[x].CarrierId) {
+				if (quote.OutboundLeg.CarrierIds[0] == carriersArray[x].CarrierId) {
 					carrier = carriersArray[x].Name;
 				}
 			}
@@ -162,7 +173,7 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 				direct = 'Indirect Flight';
 			}
 			console.log(direct);
-			var price = quote.MinPrice;
+			var price = 'Price: $' + quote.MinPrice;
 			console.log('Price: $' + price);
 			console.log('Airline ' + carrier)
 			//document.querySelector('#flight-card').innerHTML = carrier + ' ' + ' Price: $' +   price + ' ' +  direct;
@@ -170,9 +181,10 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			var carrierItem = document.createElement('li');
 			var priceItem = document.createElement('li');
 			var directItem = document.createElement('li');
-			carrierItem.textContent = carrier;
+			carrierItem.textContent = 'Airline: ' +  carrier;
 			priceItem.textContent = price;
 			directItem.textContent  = direct;
+			
 
 			createFlightCard.appendChild(carrierItem);
 			createFlightCard.appendChild(priceItem);
