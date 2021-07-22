@@ -37,13 +37,18 @@ console.log(apiUrl);
           console.log('Temp: ' + data.main.temp);
           console.log('Humidity: ' + data.main.humidity + '%')
           console.log('Wind: ' + wind + 'MPH');
-		  var createWeatherCard = document.createElement("ul");
-			var tempItem = document.createElement('li');
-			var humidityItem = document.createElement('li');
-			var windItem = document.createElement('li');
+		  var createWeatherCard = document.createElement('div');
+			var tempItem = document.createElement('div');
+			var humidityItem = document.createElement('div');
+			var windItem = document.createElement('div');
+			weatherCard.classList.add('card',);
+			createWeatherCard.classList.add('card-content', 'is-flex', 'is-justify-content-space-evenly');
 			tempItem.textContent = 'Temp: ' + temperature;
+			tempItem.classList.add('content', 'title', 'is-3')
 			humidityItem.textContent = 'Humidity: ' + humidity;
+			humidityItem.classList.add('content', 'title', 'is-3')
 			windItem.textContent  = 'Wind: ' + wind + 'MPH';
+			windItem.classList.add('content', 'title', 'is-3');
 
 			createWeatherCard.appendChild(tempItem);
 			createWeatherCard.appendChild(humidityItem);
@@ -165,10 +170,11 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			console.log('Price: $' + price);
 			console.log('Airline ' + carrier)
 			//document.querySelector('#flight-card').innerHTML = carrier + ' ' + ' Price: $' +   price + ' ' +  direct;
-			var createFlightCard = document.createElement("ul");
-			var carrierItem = document.createElement('li');
-			var priceItem = document.createElement('li');
-			var directItem = document.createElement('li');
+			var createFlightCard = document.createElement('div');
+			var carrierItem = document.createElement('span');
+			var priceItem = document.createElement('span');
+			var directItem = document.createElement('span');
+			flightCard.classList.add('tile', 'is-vertical', 'is-2');
 			carrierItem.textContent = carrier;
 			priceItem.textContent = price;
 			directItem.textContent  = direct;
