@@ -171,13 +171,17 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			console.log('Airline ' + carrier)
 			//document.querySelector('#flight-card').innerHTML = carrier + ' ' + ' Price: $' +   price + ' ' +  direct;
 			var createFlightCard = document.createElement('div');
-			var carrierItem = document.createElement('span');
-			var priceItem = document.createElement('span');
-			var directItem = document.createElement('span');
-			flightCard.classList.add('tile', 'is-vertical', 'is-2');
+			var carrierItem = document.createElement('div');
+			var priceItem = document.createElement('div');
+			var directItem = document.createElement('div');
+			flightCard.classList.add('tile', 'is-parent', 'is-12', 'is-flex', 'is-flex-wrap-wrap', 'is-justify-content-space-');
+			createFlightCard.classList.add('tile', 'is-child', 'box', 'is-3', 'ml-3');
 			carrierItem.textContent = carrier;
+			carrierItem.classList.add('content', 'is-size-4');
 			priceItem.textContent = price;
+			priceItem.classList.add('content', 'is-size-5');
 			directItem.textContent  = direct;
+			directItem.classList.add('content', 'is-size-4');
 
 			createFlightCard.appendChild(carrierItem);
 			createFlightCard.appendChild(priceItem);
