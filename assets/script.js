@@ -207,7 +207,15 @@ var searchButtonHandler = function(event){
     }
 }
 
+var resetButtonHandler = function(event){
+	event.preventDefault();
+	console.log('Reset button clicked!');
+	weatherCard.innerHTML = '';
+	flightCard.innerHTML = '';
+}
+
 submitButton.addEventListener('click', searchButtonHandler);
+resetButton.addEventListener('click', resetButtonHandler);
 
 // const carriers = [
 // 	{id: 1, name: "Spirit",
