@@ -8,10 +8,44 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-   <header>
+  <nav class="navbar ml-3" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <figure class="is-96x96">
+        <img src="">
+        </figure>
+    <a class="navbar-item" href="https://bulma.io">
+    </a>
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    </a>
+    </div>
+    <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+    <a class="navbar-item is-family-code is-size-4">
+    Home
+    </a>
+    <a class="navbar-item is-family-code is-size-4">
+    Wanna book flight click here
+    </a>
+    <div class="navbar-item has-dropdown is-hoverable">
+    <a class="navbar-link is-family-code is-size-4">
+    More
+    </a>
+    <div class="navbar-dropdown">
+    <a class="navbar-item is-family-code">
+    About
+    </a>
+        <a class="navbar-item is-family-code">
+    report an issue
+    </a>
+      </div>
+    </div>
+    </div>
+    </nav>
     <h1 class="is-size-1 mt-4 pl-3 has-text-info is-family-code is-uppercase has-text-justified" > About us Tripology:</h1>
     <p class="is-size-3 mt-3 pl-3 is-family-sans-primary pb-5 ">Tripology was just an idea. But we figured that if we put all our heads together it could be so much more. That's when we started to exlpore the idea of a website that could combine flights and other features to make your trip the best trip. So try out Tripology today! More features coming soon... </p>
-</header>
     <footer class="footer pl-4">
         <div class="content has-text-centered">
         <p class="is-size-5">Any other questions? reach out through email! By filling out this form down below</p>
@@ -60,12 +94,17 @@
           
           <div class="field is-grouped">
             <div class="control">
-              <button class="button is-link">Submit</button>
+              <button class="button is-info">Submit</button>
             </div>
             <div class="control">
-              <button class="button is-link is-light">Cancel</button>
+              <button class="button is-info is-light">Cancel</button>
             </div>
           </div>
+          <article class="message">
+            <div class="message-body ml-3">
+            Tripology is a company made to assist you with having the best trip possible. This company was created by Micah, Kyle, Stephany, and Benjamin Copyright © 2021 Tripology Company S.L. All rights reserved..
+            </div>
+            </article>
     </footer>
 </body>
 </html>
