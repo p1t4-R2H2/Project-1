@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
 </head>
 <body>
-    <nav class="navbar ml-3" role="navigation" aria-label="main navigation">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand ml-5">
-          <figure class="is-96x96">
-            <img src="IMG_0943.JPG">
+          <figure class="is-96x96 ml-3">
+            <img  src="IMG_0943.JPG">
             </figure>
           </a>
       
@@ -33,28 +33,31 @@
             </a>
             </div>
       </nav>
-      <form class="ml-5 pr-4">
-      <div class="field">
+      <form class="ml-2 ">
+        <div class="card ml-5 pr-4 column is-half has-background-primary-light is-boxed ">
+      <div>
         <label class="label is-family-code">From</label>
         <div class="control">
           <input class="input" type="text" id="originCity" placeholder="Chicago ">
         </div>
       </div>
       
-      <div class="field">
+      <div>
         <label class="label is-family-code">To</label>
         <div class="control">
+          <div class="is-grouped">
           <input class="input" type="text" id="destinationCity" placeholder="Dallas">
         </div>
+      </div>
         <label class="label" for="departInput">Leaving on</label>
         <div class="control">
             <input type="date" name="departInput" id="departInput">
         </div>
-        <div class="control">
- Changes-style
-        <button class="button is-primary is-light pt-4" id="searchButton">Search</button>
+        <div class="control pt-4">
+        <button class="button is-info is-dark is-small is-fullwidth is-outlined" id="searchButton">Search</button>
           <!--<button class="button is-primary is-light mgt-medium" id="resetButton">Clear</button> -->
         </div>
+      </div>
 
       </div>
     </form>
