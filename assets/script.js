@@ -10,6 +10,9 @@ var homeBtn = document.querySelector('#homeBtn');
 var abtBtn = document.querySelector('#abtBtn');
 var resetButton = document.querySelector('#resetButton');
 
+if(localStorage.getItem('originCity')){
+	originTerm.value = localStorage.getItem('originCity');
+}
 
 var getWeather = function(){
 	var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?q=';
@@ -220,15 +223,17 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 
 //getSkyPrices();
 
+
 var searchButtonHandler = function(event){
     event.preventDefault();
     console.log('Button clicked!');
 	weatherCard.innerHTML = '';
 	flightCard.innerHTML = '';
     
-    if(searchTerm.value){
+    if(searchTerm.value && originTerm.value){
         console.log(searchTerm.value);
 		//getSkyPlaces();
+		localStorage.setItem('originCity', originTerm.value);
 		getWeather();
 		getOriginCode();
     }
