@@ -24,25 +24,25 @@
       
         <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
-            <a class="navbar-item ml-5 " id="homeBtn" href="index.html">
+            <a class="navbar-item ml-5 is-family-code is-size-3" id="homeBtn" href="index.html">
               Home
             </a>
       
-            <a class="navbar-item ml-5" id="abtBtn" href="pages/aboutus.html">
+            <a class="navbar-item ml-5 is-family-code is-size-3" id="abtBtn" href="pages/aboutus.html">
               About us
             </a>
             </div>
       </nav>
       <form class="ml-5 pr-4">
       <div class="field">
-        <label class="label">From</label>
+        <label class="label is-family-code">From</label>
         <div class="control">
           <input class="input" type="text" id="originCity" placeholder="Chicago ">
         </div>
       </div>
       
       <div class="field">
-        <label class="label">To</label>
+        <label class="label is-family-code">To</label>
         <div class="control">
           <input class="input" type="text" id="destinationCity" placeholder="Dallas">
         </div>
@@ -50,21 +50,21 @@
         <div class="control">
             <input type="date" name="departInput" id="departInput">
         </div>
-        
         <div class="control">
-            <button class="button is-link" id="searchButton">Submit</button>
-          </div>
-        <div class="control">
-          <button class="button is-link" id="resetButton">New Search</button>
+        <button class="button is-primary is-light pt-4" id="searchButton">Search</button>
+          <button class="button is-primary is-light mgt-medium" id="resetButton">Clear</button>
         </div>
       </div>
     </form>
-    
-
     <div id="weather-card"></div>
     <div class="tile is-ancestor is-12">
       <div id="flight-card"></div>
     </div>
+    <footer>
+      <div class="message-body ml-3">
+        Tripology is a company made to assist you with having the best trip possible. This company was created by Micah, Kyle, Stephany, and Benjamin Copyright © 2021 Tripology Company S.L. All rights reserved..
+        </div>
+    </footer>
 
 
     <script src="assets/script.js"></script>
