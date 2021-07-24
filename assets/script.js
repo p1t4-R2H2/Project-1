@@ -3,6 +3,7 @@ var searchTerm = document.querySelector('#destinationCity');
 var originTerm = document.querySelector('#originCity');
 var departInput = document.querySelector('#departInput');
 var returnInput = document.querySelector('#returnInput');
+var flightContTitle = document.querySelector('#flightContTitle')
 var weatherCard = document.querySelector('#weather-card');
 var flightCard = document.querySelector('#flight-card');
 var submitButton = document.querySelector('#searchButton');
@@ -239,6 +240,9 @@ var searchButtonHandler = function(event){
         console.log(searchTerm.value);
 		//getSkyPlaces();
 		localStorage.setItem('originCity', originTerm.value);
+
+		flightContTitle.innerHTML='Flights to ' + searchTerm.value;
+
 		getWeather();
 		getOriginCode();
     }
