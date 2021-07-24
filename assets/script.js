@@ -3,6 +3,7 @@ var searchTerm = document.querySelector('#destinationCity');
 var originTerm = document.querySelector('#originCity');
 var departInput = document.querySelector('#departInput');
 var returnInput = document.querySelector('#returnInput');
+var flightContTitle = document.querySelector('#flightContTitle')
 var weatherCard = document.querySelector('#weather-card');
 var flightCard = document.querySelector('#flight-card');
 var submitButton = document.querySelector('#searchButton');
@@ -10,6 +11,9 @@ var homeBtn = document.querySelector('#homeBtn');
 var abtBtn = document.querySelector('#abtBtn');
 var resetButton = document.querySelector('#resetButton');
 
+if(localStorage.getItem('originCity')){
+	originTerm.value = localStorage.getItem('originCity');
+}
 
 var getWeather = function(){
 	var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?q=';
@@ -34,6 +38,7 @@ console.log(apiUrl);
         // Examine the text in the response
         response.json().then(function(data) {
           console.log(data);
+		  var title = 'The weather in ' + city + ':';
           var temperature = data.main.temp;
           var humidity = data.main.humidity;
           var wind = data.wind.speed;
@@ -41,11 +46,14 @@ console.log(apiUrl);
           console.log('Humidity: ' + data.main.humidity + '%')
           console.log('Wind: ' + wind + 'MPH');
 		  var createWeatherCard = document.createElement('div');
+			var titleItem = document.createElement('div')
 			var tempItem = document.createElement('div');
 			var humidityItem = document.createElement('div');
 			var windItem = document.createElement('div');
 			weatherCard.classList.add('card',);
 			createWeatherCard.classList.add('card-content', 'is-flex', 'is-justify-content-space-evenly');
+			titleItem.textContent = title;
+			titleItem.classList.add('content', 'title', 'is-3')
 			tempItem.textContent = 'Temp: ' + temperature;
 			tempItem.classList.add('content', 'title', 'is-3')
 			humidityItem.textContent = 'Humidity: ' + humidity;
@@ -53,6 +61,7 @@ console.log(apiUrl);
 			windItem.textContent  = 'Wind: ' + wind + 'MPH';
 			windItem.classList.add('content', 'title', 'is-3');
 
+			createWeatherCard.appendChild(titleItem);
 			createWeatherCard.appendChild(tempItem);
 			createWeatherCard.appendChild(humidityItem);
 			createWeatherCard.appendChild(windItem);
@@ -187,7 +196,7 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			var carrierItem = document.createElement('div');
 			var priceItem = document.createElement('div');
 			var directItem = document.createElement('div');
-			flightCard.classList.add('tile', 'is-parent', 'is-12', 'is-flex', 'is-flex-wrap-wrap', 'is-justify-content-space-between');
+			flightCard.classList.add('tile', 'is-parent', 'is-12', 'is-flex', 'is-flex-wrap-wrap', 'is-justify-content-space-evenly');
 			createFlightCard.classList.add('tile', 'is-child', 'box', 'is-3', 'has-background-primary-light');
 			
 			carrierItem.classList.add('content', 'is-size-4', 'has-text-primary-dark');
@@ -220,15 +229,20 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 
 //getSkyPrices();
 
+
 var searchButtonHandler = function(event){
     event.preventDefault();
     console.log('Button clicked!');
 	weatherCard.innerHTML = '';
 	flightCard.innerHTML = '';
     
-    if(searchTerm.value){
+    if(searchTerm.value && originTerm.value){
         console.log(searchTerm.value);
 		//getSkyPlaces();
+		localStorage.setItem('originCity', originTerm.value);
+
+		flightContTitle.innerHTML='Flights to ' + searchTerm.value;
+
 		getWeather();
 		getOriginCode();
     }
