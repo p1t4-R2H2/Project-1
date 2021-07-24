@@ -38,7 +38,7 @@ console.log(apiUrl);
         // Examine the text in the response
         response.json().then(function(data) {
           console.log(data);
-		  var title = 'The weather in ' + city;
+		  var title = 'The weather in ' + city + ':';
           var temperature = data.main.temp;
           var humidity = data.main.humidity;
           var wind = data.wind.speed;
