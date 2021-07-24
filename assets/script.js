@@ -37,6 +37,7 @@ console.log(apiUrl);
         // Examine the text in the response
         response.json().then(function(data) {
           console.log(data);
+		  var title = 'The weather in ' + city;
           var temperature = data.main.temp;
           var humidity = data.main.humidity;
           var wind = data.wind.speed;
@@ -44,11 +45,14 @@ console.log(apiUrl);
           console.log('Humidity: ' + data.main.humidity + '%')
           console.log('Wind: ' + wind + 'MPH');
 		  var createWeatherCard = document.createElement('div');
+			var titleItem = document.createElement('div')
 			var tempItem = document.createElement('div');
 			var humidityItem = document.createElement('div');
 			var windItem = document.createElement('div');
 			weatherCard.classList.add('card',);
 			createWeatherCard.classList.add('card-content', 'is-flex', 'is-justify-content-space-evenly');
+			titleItem.textContent = title;
+			titleItem.classList.add('content', 'title', 'is-3')
 			tempItem.textContent = 'Temp: ' + temperature;
 			tempItem.classList.add('content', 'title', 'is-3')
 			humidityItem.textContent = 'Humidity: ' + humidity;
@@ -56,6 +60,7 @@ console.log(apiUrl);
 			windItem.textContent  = 'Wind: ' + wind + 'MPH';
 			windItem.classList.add('content', 'title', 'is-3');
 
+			createWeatherCard.appendChild(titleItem);
 			createWeatherCard.appendChild(tempItem);
 			createWeatherCard.appendChild(humidityItem);
 			createWeatherCard.appendChild(windItem);
