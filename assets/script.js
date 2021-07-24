@@ -190,7 +190,7 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			var carrierItem = document.createElement('div');
 			var priceItem = document.createElement('div');
 			var directItem = document.createElement('div');
-			flightCard.classList.add('tile', 'is-parent', 'is-12', 'is-flex', 'is-flex-wrap-wrap', 'is-justify-content-space-between');
+			flightCard.classList.add('tile', 'is-parent', 'is-12', 'is-flex', 'is-flex-wrap-wrap', 'is-justify-content-space-evenly');
 			createFlightCard.classList.add('tile', 'is-child', 'box', 'is-3', 'has-background-primary-light');
 			
 			carrierItem.classList.add('content', 'is-size-4', 'has-text-primary-dark');
