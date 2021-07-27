@@ -21,10 +21,9 @@ var getWeather = function(){
 	var city = searchTerm.value;
 	var units = '&units=imperial';
 	var APIKey = '&appid=e1a4a8808d7f6de7333f8ac6e7ef2b5d';
-	//var kyleApi = '&appid=6b7fe706f688707864f72240c14f1202';
 	var apiUrl= baseUrl + city + units + APIKey;
 console.log(apiUrl);
-	//var submitButton = document.querySelector('#submit');
+	
 	
     fetch(apiUrl)
     .then(
@@ -93,7 +92,6 @@ var getOriginCode = function (){
 
 		response.json().then(function(data){
 			console.log(data)
-			//console.log(data.Places[0].PlaceId);
 			var originCode = data.Places[0].PlaceId;
 			console.log(originCode);
 			getSkyPlaces(originCode)
@@ -141,9 +139,6 @@ var getSkyPlaces = function (originCodeRec){
 var getSkyPrices = function(cityCodeRec, originCodeRec){
 	var skyBaseUrl = "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/";
 	var departureDate = '/' + departInput.value;
-	//console.log(departureDate);
-	//var returnDate = returnInput.value;
-	//console.log(returnDate);
 	var skyApiUrl = skyBaseUrl + originCodeRec + '/' + cityCodeRec + + '/' + departureDate;
 
 
@@ -173,7 +168,6 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			console.log(data.Quotes.length);
 			var carrier;
 			for (var x = 0; x < carriersArray.length; x ++) {
-				// console.log(carrier)
 				if (quote.OutboundLeg.CarrierIds[0] == carriersArray[x].CarrierId) {
 					carrier = carriersArray[x].Name;
 				}
@@ -190,7 +184,6 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 			var price = 'Price: $' + quote.MinPrice;
 			console.log('Price: $' + price);
 			console.log('Airline ' + carrier)
-			//document.querySelector('#flight-card').innerHTML = carrier + ' ' + ' Price: $' +   price + ' ' +  direct;
 
 			var createFlightCard = document.createElement('div');
 			var carrierItem = document.createElement('div');
@@ -227,7 +220,6 @@ var getSkyPrices = function(cityCodeRec, originCodeRec){
 });
 }
 
-//getSkyPrices();
 
 
 var searchButtonHandler = function(event){
@@ -238,7 +230,6 @@ var searchButtonHandler = function(event){
     
     if(searchTerm.value && originTerm.value){
         console.log(searchTerm.value);
-		//getSkyPlaces();
 		localStorage.setItem('originCity', originTerm.value);
 
 		flightContTitle.innerHTML='Flights to ' + searchTerm.value;
@@ -251,36 +242,7 @@ var searchButtonHandler = function(event){
     }
 }
 
-// var resetButtonHandler = function(event){
-// 	event.preventDefault();
-// 	console.log('Reset button clicked!');
-// 	weatherCard.innerHTML = '';
-// 	flightCard.innerHTML = '';
-// }
+
 
 submitButton.addEventListener('click', searchButtonHandler);
-// resetButton.addEventListener('click', resetButtonHandler);
 
-// const carriers = [
-// 	{id: 1, name: "Spirit",
-// }, 
-// {
-// 	id: 2, name: "Delta"
-// }, 
-// {id:3, 
-// 	name: "American"
-// }
-// ];
-
-// const myId = 2;
-
-// const findAirlineById = (id) => {
-// 	for (let i = 0; i < carriers.length; i++) {
-// 		if (carriers[i].id === id) {
-// 			console.log(carriers[i].name)
-// 			return carriers[i].name
-// 		}
-// 	}
-// };
-
-// findAirlineById(myId);
